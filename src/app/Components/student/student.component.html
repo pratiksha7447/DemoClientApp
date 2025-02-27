@@ -1,0 +1,32 @@
+<p>student works!</p>
+@if(exist){
+<h1>Student present</h1>
+}@else{
+    <h4>Student is not there</h4>
+} 
+{{firstName() }} + {{ lastName}}
+@for( user of users ; track user.name){
+    @defer(on hover) {
+        {{user.name}}<br>
+
+    }@placeholder{
+        <div class="placeholder"></div>
+    }@loading(minimum 2s){
+        loading
+    }@error {
+        error occus
+    }
+}@empty{
+    <h1>no content</h1>
+}
+
+@switch(step){
+    @case (1){
+        <h1>1</h1>
+    }
+    @case (2){
+        <h1>2</h1>
+    }
+}
+
+<button (click)="ChangeValue()" >Chnage</button>

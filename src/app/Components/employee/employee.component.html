@@ -1,0 +1,23 @@
+<div class="mt-4">
+  <h3>Employee List</h3>
+  <button class="btn btn-primary " style="float:right" (click)="redirect()">Redirect To website 2</button>
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">name</th>
+        <th scope="col">age</th>
+        <th scope="col">isActive</th>
+      </tr>
+    </thead>
+    <tbody>
+        @for(emp of data;track emp ){
+      <tr>
+        <th scope="row">1</th>
+        <td>{{emp.name}}</td>
+        <td>{{emp.age}}</td>
+        <td>{{emp.isActive}}</td>
+      </tr>
+     }
+    </tbody>
+  </table></div>
