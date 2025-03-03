@@ -63,7 +63,7 @@ jobs:
         run: npm install
 
       - name: Run Tests
-        run: npm test -- --maxWorkers=2  # Runs tests in parallel
+        run: npm test  # Runs tests in parallel
 
   deploy:
     runs-on: ubuntu-latest
