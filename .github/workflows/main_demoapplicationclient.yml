@@ -34,10 +34,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Install dependencies
-        run: |
-              npm install --legacy-peer-deps
-              npm run build --if-present
-              npm run test --if-present
+        run: npm install --legacy-peer-deps
 
       - name: Build Application
         run: npm run build --if-present
@@ -52,6 +49,7 @@ jobs:
     runs-on: windows-latest
     needs: build
     timeout-minutes: 30  # Set timeout for tests
+
     steps:
       - uses: actions/checkout@v4
 
@@ -86,9 +84,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_0216713F0A384499BA9503AE46A0171B }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_34BFC3B80B23453086D22828A370BD86 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B42DCA3997C045BBBFB5F9518B039392 }}
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
