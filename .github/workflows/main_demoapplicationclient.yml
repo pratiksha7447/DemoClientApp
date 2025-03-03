@@ -13,7 +13,8 @@ jobs:
   build:
     runs-on: windows-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read  # Required for actions/checkout
+    timeout-minutes: 60  # Set a max execution time
 
     steps:
       - uses: actions/checkout@v4
@@ -22,28 +23,57 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20.x'
+          cache: 'npm'
 
-      - name: npm install, build, and test
-        run: |
-          npm install
-          npm run build --if-present
-          npm run test --if-present
-      
+      - name: Cache npm dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Build Application
+        run: npm run build --if-present
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
           path: .
 
+  test:
+    runs-on: windows-latest
+    needs: build
+    timeout-minutes: 30  # Set timeout for tests
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js version
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Tests
+        run: npm test -- --maxWorkers=2  # Runs tests in parallel
+
   deploy:
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build, test]  # Deploy only if build & tests pass
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write  # Required for requesting the JWT
+      contents: read    # Required for actions/checkout
 
     steps:
       - name: Download artifact from build job
@@ -58,11 +88,10 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_34BFC3B80B23453086D22828A370BD86 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B42DCA3997C045BBBFB5F9518B039392 }}
 
-      - name: 'Deploy to Azure Web App'
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
           app-name: 'DemoApplicationClient'
           slot-name: 'Production'
           package: .
-          
