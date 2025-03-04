@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SignupComponent } from './signup.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing'; // Import this
 import { SharedServiceService } from '../services/shared-service.service'; // Adjust the path if needed
-import { beforeEach, describe } from 'node:test';
 
 describe('SignupComponent', () => {
   let component: SignupComponent;
@@ -21,4 +20,7 @@ describe('SignupComponent', () => {
     fixture.detectChanges();
   });
 
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });
