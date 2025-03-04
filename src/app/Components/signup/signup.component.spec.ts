@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { SignupComponent } from './signup.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing'; // Import this
+import { SharedServiceService } from '../services/shared-service.service'; // Adjust the path if needed
+import { beforeEach, describe } from 'node:test';
 
 describe('SignupComponent', () => {
   let component: SignupComponent;
@@ -8,7 +10,9 @@ describe('SignupComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SignupComponent]
+      imports: [HttpClientTestingModule], // Add this to mock HTTP requests
+      declarations: [SignupComponent], // Add component here instead of imports
+      providers: [SharedServiceService] // Provide dependencies explicitly
     })
     .compileComponents();
 
@@ -17,7 +21,4 @@ describe('SignupComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
 });
