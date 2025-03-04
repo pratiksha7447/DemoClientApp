@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SignupComponent } from './signup.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing'; // Import this
-import { SharedServiceService } from '../services/shared-service.service'; // Adjust the path if needed
+import { SharedServiceService } from '../../Services/shared-service.service';
 
 describe('SignupComponent', () => {
   let component: SignupComponent;
