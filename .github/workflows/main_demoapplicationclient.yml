@@ -91,4 +91,4 @@ jobs:
         with:
           app-name: 'DemoApplicationClient'
           slot-name: 'Production'
-          package: .
+          package: ./dist/angular18-practice/browser
