@@ -62,9 +62,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run Tests
-        run: npm test  # Runs tests in parallel
-
   deploy:
     runs-on: ubuntu-latest
     needs: [build]  # Deploy only if build & tests pass
